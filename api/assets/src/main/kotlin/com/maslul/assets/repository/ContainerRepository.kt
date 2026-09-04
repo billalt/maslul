@@ -18,4 +18,6 @@ interface ContainerRepository : JpaRepository<Container, UUID> {
     fun findAllByTenantId(tenantId: UUID): List<Container>
 
     fun findAllByTenantIdAndServicePointId(tenantId: UUID, servicePointId: UUID): List<Container>
+
+    fun findByTenantIdAndExternalRef(tenantId: UUID, externalRef: String): Container?
 }

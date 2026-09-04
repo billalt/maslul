@@ -40,6 +40,7 @@ class ServicePointController(
     fun create(@RequestBody servicePoint: ServicePoint): ResponseEntity<ServicePoint> {
         val created = ServicePoint(
             tenantId = tenantContext.currentTenantId(),
+            externalRef = servicePoint.externalRef,
             type = servicePoint.type,
             geometry = servicePoint.geometry,
             side = servicePoint.side,
@@ -55,6 +56,7 @@ class ServicePointController(
         val existing = servicePointRepository.findByTenantIdAndId(tenantContext.currentTenantId(), id)
             ?: return ResponseEntity.notFound().build()
 
+        existing.externalRef = servicePoint.externalRef
         existing.type = servicePoint.type
         existing.geometry = servicePoint.geometry
         existing.side = servicePoint.side

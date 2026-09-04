@@ -22,6 +22,9 @@ class ServicePoint(
     @Column(name = "tenant_id", nullable = false)
     var tenantId: UUID? = null,
 
+    @Column(name = "external_ref")
+    var externalRef: String? = null,
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     var type: ServicePointType = ServicePointType.POINT,

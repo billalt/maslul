@@ -22,6 +22,8 @@ interface ServicePointRepository : JpaRepository<ServicePoint, UUID> {
 
     fun findAllByTenantIdAndType(tenantId: UUID, type: ServicePointType): List<ServicePoint>
 
+    fun findByTenantIdAndExternalRef(tenantId: UUID, externalRef: String): ServicePoint?
+
     // ST_DWithin is polymorphic over Point and LineString - one query, no per-type branching.
     @Query(
         value = "SELECT * FROM service_point sp " +
