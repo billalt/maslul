@@ -5,8 +5,15 @@ import com.maslul.assets.entity.ServicePointType
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
+import org.springframework.transaction.annotation.Transactional
 import java.util.UUID
 
+// Custom query methods below don't inherit SimpleJpaRepository's class-level
+// @Transactional(readOnly = true) the way JpaRepository's own methods (save, findAll, ...)
+// do - without this, they run with no Spring-managed transaction, so the RLS session
+// variable (set in TenantAwareJpaTransactionManager.doBegin) never gets applied and every
+// row is silently filtered out instead of erroring.
+@Transactional(readOnly = true)
 interface ServicePointRepository : JpaRepository<ServicePoint, UUID> {
 
     fun findByTenantIdAndId(tenantId: UUID, id: UUID): ServicePoint?
