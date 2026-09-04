@@ -15,8 +15,11 @@ class ModuleBoundaryArchTest {
         val importedClasses = ClassFileImporter().importPackages("com.maslul")
 
         for (module in featureModules) {
+            // com.maslul.app is the composition root (spec §4) - it wires and integration-tests
+            // every module together, so it is exempt. The rule targets feature-to-feature imports.
             val rule: ArchRule = noClasses()
                 .that().resideOutsideOfPackage("com.maslul.$module..")
+                .and().resideOutsideOfPackage("com.maslul.app..")
                 .should().dependOnClassesThat().resideInAPackage("com.maslul.$module.entity..")
                 .because("modules must not import another module's entities directly - use its interface instead")
 

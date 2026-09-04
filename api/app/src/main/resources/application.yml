@@ -7,6 +7,12 @@ spring:
   jpa:
     open-in-view: false
 
+app:
+  jwt:
+    # Symmetric HS256 secret verifying tenant-bearing JWTs (device tokens now; OIDC-issued
+    # tokens later). Override via JWT_SECRET in every real environment.
+    secret: ${JWT_SECRET:dev-only-insecure-secret-override-in-every-real-environment}
+
 management:
   endpoints:
     web:

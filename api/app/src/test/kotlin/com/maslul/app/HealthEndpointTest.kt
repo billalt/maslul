@@ -1,5 +1,6 @@
 package com.maslul.app
 
+import com.maslul.app.testsupport.AppRoleInitializer
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
@@ -22,19 +23,22 @@ class HealthEndpointTest {
         private val postgisImage = DockerImageName.parse("postgis/postgis:16-3.4")
             .asCompatibleSubstituteFor("postgres")
 
+        // Bootstraps as the "postgres" superuser, then 01-create-app-role.sql creates the
+        // non-superuser "maslul" role the app actually connects as - see that script for why.
         @Container
         @JvmStatic
         val postgres: PostgreSQLContainer<*> = PostgreSQLContainer(postgisImage)
             .withDatabaseName("maslul")
-            .withUsername("maslul")
-            .withPassword("maslul")
+            .withUsername("postgres")
+            .withPassword("postgres")
 
         @DynamicPropertySource
         @JvmStatic
         fun datasourceProperties(registry: DynamicPropertyRegistry) {
+            AppRoleInitializer.ensureAppRole(postgres.jdbcUrl)
             registry.add("spring.datasource.url") { postgres.jdbcUrl }
-            registry.add("spring.datasource.username") { postgres.username }
-            registry.add("spring.datasource.password") { postgres.password }
+            registry.add("spring.datasource.username") { "maslul" }
+            registry.add("spring.datasource.password") { "maslul" }
         }
     }
 
