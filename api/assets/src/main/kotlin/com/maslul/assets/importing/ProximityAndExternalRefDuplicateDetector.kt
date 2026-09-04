@@ -10,7 +10,7 @@ class ProximityAndExternalRefDuplicateDetector(
     private val servicePointRepository: ServicePointRepository,
 ) : ServicePointDuplicateDetector {
 
-    override fun findDuplicate(tenantId: UUID, candidate: ImportedServicePoint): ServicePoint? {
+    override fun findDuplicate(tenantId: UUID, candidate: ImportedServicePoint, radiusMeters: Double): ServicePoint? {
         TODO("not yet implemented - awaiting review of the skeleton")
     }
 }

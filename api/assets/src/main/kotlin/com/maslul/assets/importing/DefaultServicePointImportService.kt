@@ -14,7 +14,7 @@ class DefaultServicePointImportService(
     private val containerRepository: ContainerRepository,
 ) : ServicePointImportService {
 
-    override fun importFile(tenantId: UUID, format: ImportFormat, input: InputStream): ImportReport {
+    override fun importFile(tenantId: UUID, format: ImportFormat, input: InputStream, options: ImportOptions): ImportReport {
         TODO("not yet implemented - awaiting review of the skeleton")
     }
 }

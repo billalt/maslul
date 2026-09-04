@@ -25,6 +25,9 @@ class ServicePoint(
     @Column(name = "external_ref")
     var externalRef: String? = null,
 
+    @Column
+    var name: String? = null,
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     var type: ServicePointType = ServicePointType.POINT,

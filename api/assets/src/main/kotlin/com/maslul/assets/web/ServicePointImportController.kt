@@ -1,6 +1,8 @@
 package com.maslul.assets.web
 
+import com.maslul.assets.importing.DuplicateMode
 import com.maslul.assets.importing.ImportFormat
+import com.maslul.assets.importing.ImportOptions
 import com.maslul.assets.importing.ImportReport
 import com.maslul.assets.importing.ServicePointImportService
 import com.maslul.identity.tenant.TenantContext
@@ -21,6 +23,13 @@ class ServicePointImportController(
     fun import(
         @RequestParam format: ImportFormat,
         @RequestParam file: MultipartFile,
+        @RequestParam(defaultValue = "15.0") duplicateRadiusMeters: Double,
+        @RequestParam(defaultValue = "SKIP") duplicateMode: DuplicateMode,
     ): ImportReport =
-        importService.importFile(tenantContext.currentTenantId(), format, file.inputStream)
+        importService.importFile(
+            tenantContext.currentTenantId(),
+            format,
+            file.inputStream,
+            ImportOptions(duplicateRadiusMeters, duplicateMode),
+        )
 }
